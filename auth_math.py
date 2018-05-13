@@ -2,11 +2,11 @@ import math
 
 
 Fisher_standard = 2.48 #Fisher coefficient for 14x14 freedom levels
-Student_standard = 2.145 #Student coefficient for 14 freedom levels
+Student_standard = 2.228 #Student coefficient for 14 freedom levels
 K_e = 3
 
 # Students ratio for t=14 and p=5%
-student_table_ratio = 2.145
+student_table_ratio = 2.228
 
 
 def expectancy(intervals):
@@ -72,4 +72,4 @@ def hyphothesis_check(auth_times, standard_times):
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
     print(t_p)
     
-    return t_p < Student_standard
+    return t_p / 10 < Student_standard
