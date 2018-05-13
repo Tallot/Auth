@@ -14,4 +14,5 @@ def standard_deviation(disp):
 
 
 def student_s_ratio(interv, expect, s_deviat):
-    return math.fabs()
+    return math.fabs((interv - expect) / s_deviat)
+
