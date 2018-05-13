@@ -9,14 +9,14 @@ release_times = []
 def on_press(key):
     press = time.time()
     press_times.append(press)
-    print('{0} pressed'.format(
-        key))
+    #print('{0} pressed'.format(
+        #key))
 
 def on_release(key):
     release = time.time()
     release_times.append(release)
-    print('{0} release'.format(
-        key))
+    #print('{0} release'.format(
+        #key))
     if key == Key.esc:
         # Stop listener
         return False
@@ -35,15 +35,22 @@ def gather_data():
         on_press=on_press,
         on_release=on_release) as listener:
         listener.join()
-
-    pprint(press_times)
-    pprint(release_times)
     
     pressed_intervals, unpressed_intevals = get_intervals(press_times, release_times)
     
-    pprint(pressed_intervals)
-    pprint(unpressed_intevals)
+    #pprint(pressed_intervals)
+    #pprint(unpressed_intevals)
+    
+    for i in unpressed_intevals:
+        if i < 0.0:
+            return False
+    
+    return True
     
 if __name__=='__main__':
-    gather_data()
+    eval = gather_data()
+    if eval:
+        print('OK!')
+    else: 
+        print('No no no (TheFatRat)')
 
