@@ -12,6 +12,8 @@ else:
 if mode == 'add':
     eval, pressed_intervals, unpressed_intevals = gather_data()
     while not eval:
+        pprint(pressed_intervals)
+        pprint(unpressed_intevals)
         print('No no no (TheFatRat)')
         eval, pressed_intervals, unpressed_intevals = gather_data()
     
