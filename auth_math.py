@@ -1,24 +1,52 @@
 import math
 
+
 Fisher_standard = 2.48 #Fisher coefficient for 14x14 freedom levels
 Student_standard = 2.145 #Student coefficient for 14 freedom levels
 K_e = 3
 
-def expectancy(interv):
-    return sum(interv) / len(interv)
+# Students ratio for t=13 and p=5%
+student_table_ratio = 2.160
 
 
-def dispersion(interv_s, expect):
-    return sum([interv - expect for interv in interv_s]) / (len(interv_s) - 1)
+def expectancy(intervals):
+    return sum(intervals) / len(intervals)
+
+
+def dispersion(intervals, expect):
+    return sum([(interv - expect) ** 2 for interv in intervals]) / (len(intervals) - 1)
 
 
 def standard_deviation(disp):
     return math.sqrt(disp)
 
 
-def student_s_ratio(interv, expect, s_deviat):
-    return math.fabs((interv - expect) / s_deviat)
+def student_s_ratio(intervals, expect, s_deviat):
+    return math.fabs((intervals - expect) / s_deviat)
 
+
+def student_empirical(intervals, interv):
+    curr_intervals = [el for el in intervals if el != interv]
+    curr_expectancy = expectancy(curr_intervals)
+
+    student_empirical_ratio = student_s_ratio(
+        intervals=curr_intervals,
+        expect=curr_expectancy,
+        s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
+    )
+    return student_empirical_ratio
+	
+
+def intervals_filter(intervals):
+    condition = True
+    while condition:
+        condition = False
+        for interv in intervals:
+            if student_empirical(intervals, interv) > student_table_ratio:
+                intervals.remove(interv)
+                condition = True
+                break
+				
     
 def dispersions_uniformity_check(S1, S2):
     S_max = max(S1, S2)
@@ -41,3 +69,5 @@ def hyphothesis_check(auth_times, standard_times):
     
     return t_p < Student_standard 
     
+
+
