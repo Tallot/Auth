@@ -9,7 +9,7 @@ def expectancy(intervals):
 
 
 def dispersion(intervals, expect):
-    return ((sum([interv - expect for interv in intervals])) ** 2) / (len(intervals) - 1)
+    return sum([(interv - expect) ** 2 for interv in intervals]) / (len(intervals) - 1)
 
 
 def standard_deviation(disp):
