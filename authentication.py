@@ -35,10 +35,10 @@ else:
         
     pprint(standard)
         
-    eval, y_pressed_intervals, y_unpressed_intevals = gather_data()
+    eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
     while not eval:
         print('No no no (TheFatRat)')
-        eval, y_pressed_intervals, y_unpressed_intevals = gather_data()
+        eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
     
     r = 0   
     for i in range(K_e):
