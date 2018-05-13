@@ -21,11 +21,11 @@ def standard_deviation(disp):
     return math.sqrt(disp)
 
 
-def student_s_ratio(intervals, expect, s_deviat):
-    return math.fabs((intervals - expect) / s_deviat)
+def student_s_ratio(interv, expect, s_deviat):
+    return math.fabs((interv - expect) / s_deviat)
 
 
-def student_empirical(intervals, interv):
+def intervals_checker(intervals, interv):
     curr_intervals = [el for el in intervals if el != interv]
     curr_expectancy = expectancy(curr_intervals)
 
@@ -34,20 +34,24 @@ def student_empirical(intervals, interv):
         expect=curr_expectancy,
         s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
     )
-    return student_empirical_ratio
-	
+
+    if student_empirical_ratio > student_table_ratio:
+        return False
+    else:
+        return True
+
 
 def intervals_filter(intervals):
     condition = True
     while condition:
         condition = False
         for interv in intervals:
-            if student_empirical(intervals, interv) > student_table_ratio:
+            if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
                 condition = True
                 break
-				
-    
+
+
 def dispersions_uniformity_check(S1, S2):
     S_max = max(S1, S2)
     S_min = min(S1, S2)
@@ -55,7 +59,7 @@ def dispersions_uniformity_check(S1, S2):
     
     return Fisher_coef < Fisher_standard
 
-	
+
 def hyphothesis_check(auth_times, standard_times):
     n = len(auth_times)
     M_x_lambda = sum(standard_times)/n
@@ -67,7 +71,4 @@ def hyphothesis_check(auth_times, standard_times):
     S = math.sqrt( (S_x_lambda**2 + S_y**2)*(n-1) / (2*n-1) )
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
     
-    return t_p < Student_standard 
-    
-
-
+    return t_p < Student_standard
