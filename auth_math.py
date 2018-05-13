@@ -5,8 +5,8 @@ Fisher_standard = 2.48 #Fisher coefficient for 14x14 freedom levels
 Student_standard = 2.145 #Student coefficient for 14 freedom levels
 K_e = 3
 
-# Students ratio for t=13 and p=5%
-student_table_ratio = 2.160
+# Students ratio for t=14 and p=5%
+student_table_ratio = 2.145
 
 
 def expectancy(intervals):
@@ -59,7 +59,7 @@ def dispersions_uniformity_check(S1, S2):
     
     return Fisher_coef < Fisher_standard
 
-	
+    
 def hyphothesis_check(auth_times, standard_times):
     n = len(auth_times)
     M_x_lambda = sum(standard_times)/n
@@ -70,5 +70,6 @@ def hyphothesis_check(auth_times, standard_times):
     
     S = math.sqrt( (S_x_lambda**2 + S_y**2)*(n-1) / (2*n-1) )
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
+    print(t_p)
     
     return t_p < Student_standard

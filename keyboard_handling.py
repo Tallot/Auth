@@ -25,8 +25,8 @@ def get_intervals(press_times, release_times):
     #sometimes press and release timestamps are written in incorrect order 
     press_times = sorted(press_times[:-1])
     release_times = sorted(release_times[:-1])
-    pressed_intervals = [release_times[i] - press_times[i] for i in range(len(press_times))]
-    unpressed_intevals = [press_times[i+1] - release_times[i] for i in range(len(press_times)-1)]
+    pressed_intervals = [abs(release_times[i] - press_times[i]) for i in range(len(press_times))]
+    unpressed_intevals = [abs(press_times[i+1] - release_times[i]) for i in range(len(press_times)-1)]
     return pressed_intervals, unpressed_intevals
 
 def gather_data():
@@ -40,10 +40,6 @@ def gather_data():
     
     #pprint(pressed_intervals)
     #pprint(unpressed_intevals)
-    
-    for i in unpressed_intevals:
-        if i < 0.0:
-            return False, None, None
     
     return True, pressed_intervals, unpressed_intevals
     

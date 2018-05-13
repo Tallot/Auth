@@ -10,35 +10,40 @@ else:
     mode = 'add'
     
 if mode == 'add':
-    eval, pressed_intervals, unpressed_intevals = gather_data()
+    print('Enter your password(15 chars):')
+    eval, pressed_intervals, unpressed_intervals = gather_data()
     while not eval:
         pprint(pressed_intervals)
-        pprint(unpressed_intevals)
+        pprint(unpressed_intervals)
         print('No no no (TheFatRat)')
-        eval, pressed_intervals, unpressed_intevals = gather_data()
+        eval, pressed_intervals, unpressed_intervals = gather_data()
     
     pprint(pressed_intervals)
-    pprint(unpressed_intevals)
+    pprint(unpressed_intervals)
     
     intervals_filter(pressed_intervals)
-    intervals_filter(unpressed_intevals)
+    intervals_filter(unpressed_intervals)
     
     pprint(pressed_intervals)
-    pprint(unpressed_intevals)
+    pprint(unpressed_intervals)
     
     with open('standard', 'wb') as fs:
-        pickle.dump([pressed_intervals, unpressed_intevals], fs)
+        pickle.dump([pressed_intervals, unpressed_intervals], fs)
         
 else:
     with open('standard', 'rb') as fs:
         standard = pickle.load(fs)
         
-    pprint(standard)
+    #pprint(standard)
+    print('Enter password')
         
     eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
     while not eval:
         print('No no no (TheFatRat)')
         eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
+        
+    intervals_filter(y_pressed_intervals)
+    intervals_filter(y_unpressed_intervals)
     
     r = 0   
     for i in range(K_e):
@@ -54,7 +59,8 @@ else:
             pass
             
     P = r/(2*K_e)
-    if P > 0.5:
+    print(P)
+    if P >= 0.5:
         print('You have passed')
     else:
         print('Fuck off')
