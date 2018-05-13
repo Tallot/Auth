@@ -44,13 +44,14 @@ def intervals_checker(intervals, interv):
 def intervals_filter(intervals):
     condition = True
     while condition:
+        condition = False
         for interv in intervals:
             if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
                 condition = True
                 break
 
-				
+
 def dispersions_uniformity_check(S1, S2):
     S_max = max(S1, S2)
     S_min = min(S1, S2)
