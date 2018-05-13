@@ -35,7 +35,7 @@ def student_empirical(intervals, interv):
         s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
     )
     return student_empirical_ratio
-	
+    
 
 def intervals_filter(intervals):
     condition = True
@@ -46,7 +46,7 @@ def intervals_filter(intervals):
                 intervals.remove(interv)
                 condition = True
                 break
-				
+                
     
 def dispersions_uniformity_check(S1, S2):
     S_max = max(S1, S2)
@@ -55,7 +55,7 @@ def dispersions_uniformity_check(S1, S2):
     
     return Fisher_coef < Fisher_standard
 
-	
+    
 def hyphothesis_check(auth_times, standard_times):
     n = len(auth_times)
     M_x_lambda = sum(standard_times)/n

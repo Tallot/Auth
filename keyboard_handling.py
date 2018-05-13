@@ -43,12 +43,12 @@ def gather_data():
     
     for i in unpressed_intevals:
         if i < 0.0:
-            return False
+            return False, None, None
     
-    return True
+    return True, pressed_intervals, unpressed_intevals
     
 if __name__=='__main__':
-    eval = gather_data()
+    eval, pressed_intervals, unpressed_intevals = gather_data()
     if eval:
         print('OK!')
     else: 
