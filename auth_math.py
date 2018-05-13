@@ -30,7 +30,7 @@ def intervals_checker(intervals, interv):
     curr_expectancy = expectancy(curr_intervals)
 
     student_empirical_ratio = student_s_ratio(
-        intervals=curr_intervals,
+        interv=interv,
         expect=curr_expectancy,
         s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
     )
@@ -44,7 +44,6 @@ def intervals_checker(intervals, interv):
 def intervals_filter(intervals):
     condition = True
     while condition:
-        condition = False
         for interv in intervals:
             if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
