@@ -20,16 +20,24 @@ def student_s_ratio(intervals, expect, s_deviat):
     return math.fabs((intervals - expect) / s_deviat)
 
 
+def student_empirical(intervals, interv):
+    curr_intervals = [el for el in intervals if el != interv]
+    curr_expectancy = expectancy(curr_intervals)
+
+    student_empirical_ratio = student_s_ratio(
+        intervals=curr_intervals,
+        expect=curr_expectancy,
+        s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
+    )
+    return student_empirical_ratio
+
+
 def intervals_filter(intervals):
-    for interv in intervals:
-        curr_intervals = [el for el in intervals if el != interv]
-        curr_expectancy = expectancy(curr_intervals)
-
-        student_empirical_ratio = student_s_ratio(
-            intervals=curr_intervals,
-            expect=curr_expectancy,
-            s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
-        )
-
-        if student_empirical_ratio > student_table_ratio:
-            intervals.remove()
+    condition = True
+    while condition:
+        condition = False
+        for interv in intervals:
+            if student_empirical(intervals, interv) > student_table_ratio:
+                intervals.remove(interv)
+                condition = True
+                break
