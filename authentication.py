@@ -12,11 +12,6 @@ else:
 if mode == 'add':
     print('Enter your password(15 chars):')
     eval, pressed_intervals, unpressed_intervals = gather_data()
-    while not eval:
-        pprint(pressed_intervals)
-        pprint(unpressed_intervals)
-        print('No no no (TheFatRat)')
-        eval, pressed_intervals, unpressed_intervals = gather_data()
     
     pprint(pressed_intervals)
     pprint(unpressed_intervals)
@@ -36,23 +31,18 @@ else:
         
     #pprint(standard)
     print('Enter password')
-        
-    eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
-    while not eval:
-        print('No no no (TheFatRat)')
-        eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
-        
-    intervals_filter(y_pressed_intervals)
-    intervals_filter(y_unpressed_intervals)
     
     r = 0   
     for i in range(K_e):
+        eval, y_pressed_intervals, y_unpressed_intervals = gather_data()
+        
+        intervals_filter(y_pressed_intervals)
+        intervals_filter(y_unpressed_intervals)
         if hyphothesis_check(y_pressed_intervals, standard[0]):
             r+=1
         else:
             pass
         
-    for i in range(K_e):
         if hyphothesis_check(y_unpressed_intervals, standard[1]):
             r+=1
         else:
