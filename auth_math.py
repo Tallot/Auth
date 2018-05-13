@@ -45,7 +45,7 @@ def intervals_filter(intervals):
     condition = True
     while condition:
         for interv in intervals:
-            if not intervals_checker(intervals, interv)
+            if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
                 condition = True
                 break
