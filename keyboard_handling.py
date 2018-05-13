@@ -2,30 +2,48 @@ from pynput.keyboard import Key, Listener
 import time
 from pprint import pprint
 
-pressed_intervals = []
-unpressed_intevals = [] 
+press_times = []
+release_times = [] 
 
 
 def on_press(key):
     press = time.time()
-    pressed_intervals.append(press)
+    press_times.append(press)
     print('{0} pressed'.format(
         key))
 
 def on_release(key):
-    unpressed = time.time()
-    unpressed_intevals.append(unpressed)
+    release = time.time()
+    release_times.append(release)
     print('{0} release'.format(
         key))
     if key == Key.esc:
         # Stop listener
         return False
 
-# Collect events until released
-with Listener(
+def get_intervals(press_times, release_times):
+    #sometimes press and release timestamps are written in incorrect order 
+    press_times = sorted(press_times[:-1])
+    release_times = sorted(release_times[:-1])
+    pressed_intervals = [release_times[i] - press_times[i] for i in range(len(press_times))]
+    unpressed_intevals = [press_times[i+1] - release_times[i] for i in range(len(press_times)-1)]
+    return pressed_intervals, unpressed_intevals
+
+def gather_data():
+    # Collect events until released
+    with Listener(
         on_press=on_press,
         on_release=on_release) as listener:
-    listener.join()
+        listener.join()
+
+    pprint(press_times)
+    pprint(release_times)
     
-pprint(pressed_intervals)
-pprint(unpressed_intevals)
+    pressed_intervals, unpressed_intevals = get_intervals(press_times, release_times)
+    
+    pprint(pressed_intervals)
+    pprint(unpressed_intevals)
+    
+if __name__=='__main__':
+    gather_data()
+
