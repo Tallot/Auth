@@ -45,8 +45,8 @@ def gather_data():
     
 if __name__=='__main__':
     eval, pressed_intervals, unpressed_intevals = gather_data()
-	pprint(pressed_intervals)
-	pprint(unpressed_intevals)
+    pprint(pressed_intervals)
+    pprint(unpressed_intevals)
     if eval:
         print('OK!')
     else: 
