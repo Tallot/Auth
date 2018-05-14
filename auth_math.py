@@ -70,7 +70,6 @@ def hyphothesis_check(auth_times, standard_times):
     
     S = math.sqrt( (S_x_lambda**2 + S_y**2)*(n-1) / (2*n-1) )
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
-    print(t_p/10)
+    print(t_p)
     
-    return t_p/10 < Student_standard
-
+    return t_p < Student_standard
