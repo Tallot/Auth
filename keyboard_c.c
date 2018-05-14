@@ -3,20 +3,23 @@
 #include <conio.h>
 #include <sys/time.h>
 
+#define ENTER 13
+
 int main() {
-    printf("press key a\n");
+    FILE* stat_file = fopen("statiscitc.txt", "w");
+    printf("enter your text\n");
     while (1) {
-        int c = getch();
-        if (c == 13) {
+        int key = getch();
+        if (key == ENTER) {
             break;
         } else {
             clock_t t0 = clock();
             clock_t t1 = NULL;
-            if (GetAsyncKeyState(VkKeyScan(c)) != 0) {
+            if (GetAsyncKeyState(VkKeyScan(key)) != 0) {
                 while (1) {
-                    if (GetAsyncKeyState(VkKeyScan(c)) == 0) {
+                    if (GetAsyncKeyState(VkKeyScan(key)) == 0) {
                         t1 = clock();
-                        printf("%ld\n", (long) (t1 - t0));
+                        fprintf(stat_file, "%ld\n%ld\n", (long) (t0), (long) (t1));
                         break;
                     }
                 }
