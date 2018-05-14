@@ -26,5 +26,6 @@ int main() {
             }
         }
     }
+    fclose(stat_file);
     return 0;
 }
