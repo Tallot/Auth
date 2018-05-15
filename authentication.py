@@ -1,21 +1,35 @@
-from keyboard_handling import gather_data, get_intervals
 from auth_math import *
 import os.path
 import pickle
 from pprint import pprint
 import os
 
+
 def read_standard():
     with open('standard.txt', 'r') as fs:
         data = fs.readlines()
-        data = [int(datum[:-1]) for datum in data]
+        data = [float(datum[:-1]) for datum in data]
         return data[::2], data[1::2]
         
 def read_statistics():
-    with open('statiscitc.txt', 'r') as fs:
+    with open('statistics.txt', 'r') as fs:
         data = fs.readlines()
-        data = [int(datum[:-1]) for datum in data]
+        data = [float(datum[:-1]) for datum in data]
         return data[::2], data[1::2]
+
+def get_intervals(press_times, release_times):
+    pressed_intervals = [release_times[i] - press_times[i] for i in range(len(press_times))]
+    unpressed_intevals = [press_times[i+1] - release_times[i] for i in range(len(press_times)-1)]
+    return pressed_intervals, unpressed_intevals
+        
+def mix(pressed, unpressed):
+    full_vector = []
+    full_vector.append(pressed[0])
+    for i in range(len(unpressed)):
+        full_vector.append(unpressed[i])
+        full_vector.append(pressed[i+1])
+        
+    return full_vector
 
 if os.path.isfile('./standard.txt'):
     mode = 'auth'
@@ -23,48 +37,50 @@ else:
     mode = 'add'
     
 if mode == 'add':
-    print('Enter your password(15 chars):')
-    eval, pressed_intervals, unpressed_intervals = gather_data()
+    averaged = [0 for i in range(21)]
+    for i in range(3):
+        print('Enter your password(11 chars):')
+        os.system('keyboard_handler.exe 1')
+        
+        standard1, standard2 = read_standard()
+        standard1, standard2 = get_intervals(standard1, standard2)
+        
+        full_standard = mix(standard1, standard2)
+        
+        for i in range(len(averaged)):
+            averaged[i] += full_standard[i]
     
-    pprint(pressed_intervals)
-    pprint(unpressed_intervals)
+    averaged = [i/3 for i in averaged]
     
-    intervals_filter(pressed_intervals)
-    intervals_filter(unpressed_intervals)
+    intervals_filter(averaged)    
     
-    pprint(pressed_intervals)
-    pprint(unpressed_intervals)
-    
-    with open('standard', 'wb') as fs:
-        pickle.dump([pressed_intervals, unpressed_intervals], fs)
+    with open('etalon', 'wb') as fs:
+        pickle.dump(averaged, fs)
         
 else:
-    standard1, standard2 = read_standard()
-    #with open('standard', 'rb') as fs:
-        #standard = pickle.load(fs)
+    with open('etalon', 'rb') as fs:
+        full_standard = pickle.load(fs)
         
-    #pprint(standard)
+    pprint(full_standard)
     
     r = 0   
     for i in range(K_e):
-        os.system('keyboard_handler.exe')
+        os.system('keyboard_handler.exe 2')
         y_pressed_intervals, y_unpressed_intervals = read_statistics()
+        y_pressed_intervals, y_unpressed_intervals = get_intervals(y_pressed_intervals, y_unpressed_intervals)
         
-        intervals_filter(y_pressed_intervals)
-        intervals_filter(y_unpressed_intervals)
-        if hyphothesis_check(y_pressed_intervals, standard1):
-            r+=1
-        else:
-            pass
         
-        if hyphothesis_check(y_unpressed_intervals, standard2):
+        full_auth = mix(y_pressed_intervals, y_unpressed_intervals)
+        pprint(full_auth)
+        
+        if hyphothesis_check(full_auth, full_standard):
             r+=1
         else:
             pass
             
-    P = r/(2*K_e)
+    P = r/(K_e)
     print(P)
     if P >= 0.5:
         print('You have passed')
     else:
-        print('Fuck off')
+        print('No no no - TheFatRat')

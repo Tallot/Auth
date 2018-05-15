@@ -2,11 +2,11 @@ import math
 
 
 Fisher_standard = 2.48 #Fisher coefficient for 14x14 freedom levels
-Student_standard = 2.228 #Student coefficient for 14 freedom levels
+Student_standard = 2.09#Student coefficient for 10 freedom levels
 K_e = 3
 
-# Students ratio for t=14 and p=5%
-student_table_ratio = 2.228
+# Students ratio for t=10 and p=5%
+student_table_ratio = 2.09
 
 
 def expectancy(intervals):
@@ -22,6 +22,7 @@ def standard_deviation(disp):
 
 
 def student_s_ratio(interv, expect, s_deviat):
+    
     return math.fabs((interv - expect) / s_deviat)
 
 
@@ -34,7 +35,7 @@ def intervals_checker(intervals, interv):
         expect=curr_expectancy,
         s_deviat=standard_deviation(dispersion(curr_intervals, curr_expectancy))
     )
-
+    
     if student_empirical_ratio > student_table_ratio:
         return False
     else:
@@ -45,7 +46,7 @@ def intervals_filter(intervals):
     condition = True
     while condition:
         condition = False
-        for interv in intervals:
+        for interv in intervals:            
             if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
                 condition = True
@@ -70,6 +71,6 @@ def hyphothesis_check(auth_times, standard_times):
     
     S = math.sqrt( (S_x_lambda**2 + S_y**2)*(n-1) / (2*n-1) )
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
-    print(t_p)
+    print(0.1*t_p)
     
-    return t_p < Student_standard
+    return 0.1*t_p < Student_standard
