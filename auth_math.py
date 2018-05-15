@@ -46,7 +46,8 @@ def intervals_filter(intervals):
     condition = True
     while condition:
         condition = False
-        for interv in intervals:            
+        for interv in intervals:
+            
             if not intervals_checker(intervals, interv):
                 intervals.remove(interv)
                 condition = True
@@ -73,4 +74,4 @@ def hyphothesis_check(auth_times, standard_times):
     t_p = math.fabs((M_x_lambda - M_y) / (S*math.sqrt(2/n)))
     print(0.1*t_p)
     
-    return 0.1*t_p < Student_standard
+    return 0.1*t_p > Student_standard
