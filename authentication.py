@@ -61,7 +61,7 @@ else:
     with open('etalon', 'rb') as fs:
         full_standard = pickle.load(fs)
         
-    pprint(full_standard)
+    #pprint(full_standard)
     
     r = 0   
     for i in range(K_e):
@@ -71,7 +71,7 @@ else:
         
         
         full_auth = mix(y_pressed_intervals, y_unpressed_intervals)
-        pprint(full_auth)
+        #pprint(full_auth)
         
         if hyphothesis_check(full_auth, full_standard):
             r+=1
